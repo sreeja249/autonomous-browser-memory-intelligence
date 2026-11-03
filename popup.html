@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>ABMI</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            width: 470px;
+
+            min-height: 600px;
+
+            background:
+                #f5f6f8;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            color:
+                #111;
+
+        }
+
+
+        .container {
+
+            padding: 18px;
+
+        }
+
+
+        h1 {
+
+            margin:
+                0 0 4px 0;
+
+            font-size:
+                25px;
+
+        }
+
+
+        .subtitle {
+
+            color:
+                #666;
+
+            margin-bottom:
+                18px;
+
+        }
+
+
+        .card {
+
+            background:
+                white;
+
+            border-radius:
+                14px;
+
+            padding:
+                18px;
+
+            margin-bottom:
+                14px;
+
+            box-shadow:
+                0 2px 10px
+                rgba(
+                    0,
+                    0,
+                    0,
+                    0.08
+                );
+
+        }
+
+
+        .badge {
+
+            display:
+                inline-block;
+
+            background:
+                #eeeeee;
+
+            border-radius:
+                6px;
+
+            padding:
+                5px 9px;
+
+            font-size:
+                12px;
+
+            font-weight:
+                700;
+
+            margin-bottom:
+                8px;
+
+        }
+
+
+        .section-title {
+
+            font-size:
+                22px;
+
+            font-weight:
+                700;
+
+            margin-bottom:
+                14px;
+
+        }
+
+
+        .row {
+
+            display:
+                flex;
+
+            justify-content:
+                space-between;
+
+            gap:
+                15px;
+
+            padding:
+                9px 0;
+
+            border-bottom:
+                1px solid #eeeeee;
+
+            font-size:
+                14px;
+
+        }
+
+
+        .row:last-child {
+
+            border-bottom:
+                none;
+
+        }
+
+
+        .value {
+
+            font-weight:
+                700;
+
+            text-align:
+                right;
+
+        }
+
+
+        .tab-state {
+
+            background:
+                #f8f9fa;
+
+            border-left:
+                4px solid #3987d6;
+
+            border-radius:
+                10px;
+
+            padding:
+                15px;
+
+            margin-bottom:
+                12px;
+
+        }
+
+
+        .tab-number {
+
+            font-size:
+                17px;
+
+            font-weight:
+                700;
+
+            margin-bottom:
+                10px;
+
+        }
+
+
+        .tab-title {
+
+            font-size:
+                16px;
+
+            font-weight:
+                700;
+
+            overflow-wrap:
+                anywhere;
+
+        }
+
+
+        .small-text {
+
+            color:
+                #666;
+
+            font-size:
+                12px;
+
+            margin-top:
+                4px;
+
+            overflow-wrap:
+                anywhere;
+
+        }
+
+
+        hr {
+
+            border:
+                none;
+
+            border-top:
+                1px solid #dddddd;
+
+            margin:
+                12px 0;
+
+        }
+
+
+        .action-keep {
+
+            color:
+                #2e7d32;
+
+            font-weight:
+                700;
+
+        }
+
+
+        .action-warn {
+
+            color:
+                #ef8b00;
+
+            font-weight:
+                700;
+
+        }
+
+
+        .action-suspend {
+
+            color:
+                #d32f2f;
+
+            font-weight:
+                700;
+
+        }
+
+
+        .state {
+
+            font-size:
+                12px;
+
+            overflow-wrap:
+                anywhere;
+
+        }
+
+
+        button {
+
+            width:
+                100%;
+
+            border:
+                none;
+
+            border-radius:
+                8px;
+
+            padding:
+                13px;
+
+            margin-top:
+                10px;
+
+            font-size:
+                15px;
+
+            cursor:
+                pointer;
+
+            color:
+                white;
+
+            font-weight:
+                700;
+
+        }
+
+
+        #collectButton {
+
+            background:
+                #222;
+
+        }
+
+
+        #downloadButton {
+
+            background:
+                #3987d6;
+
+        }
+
+
+        #clearButton {
+
+            background:
+                #df5555;
+
+        }
+
+
+        .message {
+
+            text-align:
+                center;
+
+            margin-top:
+                10px;
+
+            font-size:
+                13px;
+
+        }
+
+
+        .no-data {
+
+            color:
+                #777;
+
+            text-align:
+                center;
+
+            padding:
+                20px;
+
+        }
+
+        .suspended-card {
+            background: #fff8e7;
+            border-left: 4px solid #f59e0b;
+            border-radius: 10px;
+            padding: 14px;
+            margin-bottom: 12px;
+        }
+
+        .suspended-title {
+            font-weight: 700;
+            font-size: 15px;
+            overflow-wrap: anywhere;
+        }
+
+        .suspended-domain {
+            color: #666;
+            font-size: 12px;
+            margin-top: 5px;
+            overflow-wrap: anywhere;
+        }
+
+        .restore-button {
+            width: 100%;
+            background: #2e8b57;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 11px;
+            margin-top: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .restore-button:hover {
+            background: #247047;
+        }
+
+        .restore-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <h1>
+        ABMI
+    </h1>
+
+
+    <div class="subtitle">
+        Autonomous Browser Memory Intelligence
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- MODULE 1 -->
+    <!-- ================================================= -->
+
+    <div class="card">
+
+
+        <div class="badge">
+            MODULE 1
+        </div>
+
+
+        <div class="section-title">
+            Monitoring
+        </div>
+
+
+        <div class="row">
+
+            <span>
+                Status
+            </span>
+
+            <span
+                id="monitoringStatus"
+                class="value"
+            >
+                Loading...
+            </span>
+
+        </div>
+
+
+        <div class="row">
+
+            <span>
+                Dataset Records
+            </span>
+
+            <span
+                id="recordCount"
+                class="value"
+            >
+                0
+            </span>
+
+        </div>
+
+
+        <div class="row">
+
+            <span>
+                Current Open Tabs
+            </span>
+
+            <span
+                id="currentTabCount"
+                class="value"
+            >
+                0
+            </span>
+
+        </div>
+
+        <div class="row">
+
+            <span>
+                Total Suspended Tabs
+            </span>
+
+            <span
+                id="suspendedTabCount"
+                class="value"
+            >
+                0
+            </span>
+
+        </div>
+
+
+        <div class="row">
+
+            <span>
+                History
+            </span>
+
+            <span class="value">
+                Included
+            </span>
+
+        </div>
+
+
+        <div class="row">
+
+            <span>
+                System RAM
+            </span>
+
+            <span class="value">
+                Monitoring
+            </span>
+
+        </div>
+
+
+        <div class="row">
+
+            <span>
+                System CPU
+            </span>
+
+            <span class="value">
+                Monitoring
+            </span>
+
+        </div>
+
+
+        <div class="row">
+
+            <span>
+                Snapshot ID
+            </span>
+
+            <span
+                id="snapshotId"
+                class="value"
+            >
+                -
+            </span>
+
+        </div>
+
+
+        <div class="row">
+
+            <span>
+                Last Snapshot
+            </span>
+
+            <span
+                id="lastSnapshot"
+                class="value"
+            >
+                Never
+            </span>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- MODULE 3 -->
+    <!-- ================================================= -->
+
+    <div class="card">
+
+
+        <div class="badge">
+            MODULE 3
+        </div>
+
+
+        <div class="section-title">
+            Browser-Level Context
+        </div>
+
+
+        <div class="row">
+
+            <span>
+                Average Tab Importance
+            </span>
+
+            <span
+                id="browserImportance"
+                class="value"
+            >
+                -
+            </span>
+
+        </div>
+
+
+        <div class="row">
+
+            <span>
+                Browser Importance Level
+            </span>
+
+            <span
+                id="browserImportanceLevel"
+                class="value"
+            >
+                -
+            </span>
+
+        </div>
+
+
+        <div class="row">
+
+            <span>
+                High Importance Tabs
+            </span>
+
+            <span
+                id="highRatio"
+                class="value"
+            >
+                -
+            </span>
+
+        </div>
+
+
+        <div class="row">
+
+            <span>
+                Medium Importance Tabs
+            </span>
+
+            <span
+                id="mediumRatio"
+                class="value"
+            >
+                -
+            </span>
+
+        </div>
+
+
+        <div class="row">
+
+            <span>
+                Low Importance Tabs
+            </span>
+
+            <span
+                id="lowRatio"
+                class="value"
+            >
+                -
+            </span>
+
+        </div>
+
+
+        <div class="row">
+
+            <span>
+                Maximum Tab Importance
+            </span>
+
+            <span
+                id="maxImportance"
+                class="value"
+            >
+                -
+            </span>
+
+        </div>
+
+
+        <div class="row">
+
+            <span>
+                Browser Resource Pressure
+            </span>
+
+            <span
+                id="browserPressure"
+                class="value"
+            >
+                -
+            </span>
+
+        </div>
+
+
+        <div class="row">
+
+            <span>
+                Pressure Level
+            </span>
+
+            <span
+                id="browserPressureLevel"
+                class="value"
+            >
+                -
+            </span>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- MODULE 3 + 4 -->
+    <!-- ================================================= -->
+
+    <div class="card">
+
+
+        <div class="badge">
+            MODULE 3 + MODULE 4
+        </div>
+
+
+        <div class="section-title">
+            Current Open Tabs — RL + Q-Learning
+        </div>
+
+
+        <div id="allTabsRLStates">
+
+            <div class="no-data">
+                Loading...
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- MODULE 5 -->
+    <!-- ================================================= -->
+
+    <div class="card">
+
+        <div class="badge">
+            MODULE 5
+        </div>
+
+        <div class="section-title">
+            Suspended Tabs
+        </div>
+
+        <div id="suspendedTabs">
+
+            <div class="no-data">
+                No suspended tabs.
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- LAST ACTION RESULT -->
+    <!-- ================================================= -->
+
+    <div class="card">
+
+        <div class="section-title">
+            Last Action & Resource Impact
+        </div>
+
+        <div id="lastActionResult">
+            No action recorded yet.
+        </div>
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- LATEST RECORD -->
+    <!-- ================================================= -->
+
+    <div class="card">
+
+
+        <div class="section-title">
+            Latest Record
+        </div>
+
+
+        <div id="latestRecord">
+
+            No records yet.
+
+        </div>
+
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- CONTROLS -->
+    <!-- ================================================= -->
+
+    <div class="card">
+
+
+        <button
+            id="collectButton"
+        >
+            Collect Current Snapshot
+        </button>
+
+
+        <button
+            id="downloadButton"
+        >
+            Download Dataset CSV
+        </button>
+
+
+        <button
+            id="clearButton"
+        >
+            Clear Dataset
+        </button>
+
+
+        <div
+            id="message"
+            class="message"
+        ></div>
+
+
+    </div>
+
+
+</div>
+
+
+<script src="popup.js"></script>
+
+
+</body>
+
+</html>

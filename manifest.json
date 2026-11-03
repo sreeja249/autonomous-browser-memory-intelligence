@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+
+  "name": "ABMI - Autonomous Browser Memory Intelligence",
+
+  "version": "1.1.0",
+
+  "description": "Autonomous Browser Memory Intelligence with monitoring, feature engineering, browser-level reinforcement learning and human-in-the-loop tab management.",
+
+  "permissions": [
+    "tabs",
+    "history",
+    "storage",
+    "alarms",
+    "system.memory",
+    "system.cpu"
+  ],
+
+
+  "background": {
+    "service_worker": "background.js"
+  },
+
+  "action": {
+    "default_title": "ABMI",
+    "default_popup": "popup.html"
+  }
+}

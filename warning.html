@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>
+        ABMI Memory Warning
+    </title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            padding: 20px;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background:
+                #f5f5f5;
+
+        }
+
+
+        .container {
+
+            width: 100%;
+
+            max-width: 570px;
+
+            margin: auto;
+
+        }
+
+
+        .card {
+
+            background:
+                white;
+
+            border-radius:
+                18px;
+
+            padding:
+                30px;
+
+            box-shadow:
+                0 10px 30px
+                rgba(
+                    0,
+                    0,
+                    0,
+                    0.20
+                );
+
+        }
+
+
+        .icon {
+
+            width: 52px;
+
+            height: 52px;
+
+            border-radius: 50%;
+
+            background:
+                #fff3cd;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 27px;
+
+            margin-bottom: 12px;
+
+        }
+
+
+        h1 {
+
+            margin: 0;
+
+            font-size: 23px;
+
+        }
+
+
+        .subtitle {
+
+            margin-top: 8px;
+
+            color: #666;
+
+            line-height: 1.5;
+
+            font-size: 14px;
+
+        }
+
+
+        .tab {
+
+            margin-top: 20px;
+
+            padding: 14px;
+
+            background:
+                #f3f4f6;
+
+            border-radius: 10px;
+
+        }
+
+
+        .tab-name {
+
+            font-weight: 700;
+
+            font-size: 16px;
+
+            overflow-wrap:
+                anywhere;
+
+        }
+
+
+        .domain {
+
+            margin-top: 5px;
+
+            color: #666;
+
+            font-size: 12px;
+
+        }
+
+
+        .details {
+
+            margin-top: 18px;
+
+        }
+
+
+        .row {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+            padding: 9px 0;
+
+            border-bottom:
+                1px solid #eee;
+
+            font-size: 14px;
+
+        }
+
+
+        .value {
+
+            font-weight: 700;
+
+            text-align: right;
+
+            overflow-wrap:
+                anywhere;
+
+            max-width: 280px;
+
+        }
+
+
+        .buttons {
+
+            display: flex;
+
+            gap: 10px;
+
+            margin-top: 22px;
+
+        }
+
+
+        button {
+
+            flex: 1;
+
+            border: none;
+
+            border-radius: 9px;
+
+            padding: 13px 8px;
+
+            color: white;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+        }
+
+
+        #keepButton {
+
+            background:
+                #2e7d32;
+
+        }
+
+
+        #suspendButton {
+
+            background:
+                #ef8b00;
+
+        }
+
+
+        #closeButton {
+
+            background:
+                #d32f2f;
+
+        }
+
+
+        button:disabled {
+
+            opacity: 0.5;
+
+            cursor:
+                not-allowed;
+
+        }
+
+
+        .close-warning {
+
+            margin-top: 14px;
+
+            padding: 10px;
+
+            border-radius: 8px;
+
+            background:
+                #fff0f0;
+
+            color:
+                #b71c1c;
+
+            font-size: 12px;
+
+            line-height: 1.4;
+
+        }
+
+
+        /* =====================================================
+           RESOURCE RESULT
+           ===================================================== */
+
+        .resource-result {
+
+            display: none;
+
+            margin-top: 18px;
+
+            padding: 16px;
+
+            border-radius: 12px;
+
+            background:
+                #eef7ee;
+
+            border:
+                1px solid #b8dcb8;
+
+        }
+
+
+        .resource-result-title {
+
+            font-weight: 700;
+
+            font-size: 15px;
+
+            margin-bottom: 10px;
+
+            color:
+                #1b5e20;
+
+        }
+
+
+        .resource-result-row {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 12px;
+
+            padding: 6px 0;
+
+            font-size: 13px;
+
+            border-bottom:
+                1px solid #dcecdc;
+
+        }
+
+
+        .resource-result-row:last-of-type {
+
+            border-bottom:
+                none;
+
+        }
+
+
+        .resource-note {
+
+            margin-top: 10px;
+
+            color: #666;
+
+            font-size: 11px;
+
+            line-height: 1.5;
+
+        }
+
+
+        /* =====================================================
+           CLEAR / CLOSE WARNING BUTTON
+           ===================================================== */
+
+        .clear-warning-button {
+
+            display: none;
+
+            width: 100%;
+
+            margin-top: 16px;
+
+            background:
+                #555;
+
+            color:
+                white;
+
+            border: none;
+
+            border-radius:
+                9px;
+
+            padding:
+                13px;
+
+            font-size:
+                14px;
+
+            font-weight:
+                700;
+
+            cursor:
+                pointer;
+
+        }
+
+
+        .clear-warning-button:hover {
+
+            background:
+                #333;
+
+        }
+
+
+        /* =====================================================
+           ERROR
+           ===================================================== */
+
+        .abmi-error {
+
+            margin-top:
+                15px;
+
+            padding:
+                12px;
+
+            background:
+                #ffe5e5;
+
+            color:
+                #b00000;
+
+            border-radius:
+                8px;
+
+            font-size:
+                13px;
+
+            line-height:
+                1.4;
+
+        }
+
+
+        .footer {
+
+            margin-top:
+                15px;
+
+            text-align:
+                center;
+
+            color:
+                #888;
+
+            font-size:
+                11px;
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <div class="card">
+
+
+        <!-- =================================================
+             HEADER
+             ================================================= -->
+
+        <div class="icon">
+            ⚠
+        </div>
+
+
+        <h1>
+            ABMI Memory Warning
+        </h1>
+
+
+        <div class="subtitle">
+
+            ABMI identified this tab as a
+            candidate for resource management
+            under the current browser conditions.
+
+        </div>
+
+
+        <!-- =================================================
+             TAB INFORMATION
+             ================================================= -->
+
+        <div class="tab">
+
+
+            <div
+                id="tabName"
+                class="tab-name"
+            >
+                Loading...
+            </div>
+
+
+            <div
+                id="domain"
+                class="domain"
+            >
+                -
+            </div>
+
+
+        </div>
+
+
+        <!-- =================================================
+             DETAILS
+             ================================================= -->
+
+        <div class="details">
+
+
+            <div class="row">
+
+                <span>
+                    Tab Importance
+                </span>
+
+                <span
+                    id="importance"
+                    class="value"
+                >
+                    -
+                </span>
+
+            </div>
+
+
+            <div class="row">
+
+                <span>
+                    Importance Level
+                </span>
+
+                <span
+                    id="importanceLevel"
+                    class="value"
+                >
+                    -
+                </span>
+
+            </div>
+
+
+            <div class="row">
+
+                <span>
+                    Resource Pressure
+                </span>
+
+                <span
+                    id="pressure"
+                    class="value"
+                >
+                    -
+                </span>
+
+            </div>
+
+
+            <div class="row">
+
+                <span>
+                    Pressure Level
+                </span>
+
+                <span
+                    id="pressureLevel"
+                    class="value"
+                >
+                    -
+                </span>
+
+            </div>
+
+
+            <div class="row">
+
+                <span>
+                    RL State
+                </span>
+
+                <span
+                    id="rlState"
+                    class="value"
+                >
+                    -
+                </span>
+
+            </div>
+
+
+            <div class="row">
+
+                <span>
+                    Exact Tab RAM
+                </span>
+
+                <span
+                    id="exactTabRam"
+                    class="value"
+                >
+                    Not exposed by stable Chrome API
+                </span>
+
+            </div>
+
+
+            <div class="row">
+
+                <span>
+                    System RAM Usage
+                </span>
+
+                <span
+                    id="ramUsage"
+                    class="value"
+                >
+                    -
+                </span>
+
+            </div>
+
+
+            <div class="row">
+
+                <span>
+                    System CPU Usage
+                </span>
+
+                <span
+                    id="cpuUsage"
+                    class="value"
+                >
+                    -
+                </span>
+
+            </div>
+
+
+            <div class="row">
+
+                <span>
+                    RAM Used / Total
+                </span>
+
+                <span
+                    id="ramUsedTotal"
+                    class="value"
+                >
+                    -
+                </span>
+
+            </div>
+
+
+            <div class="row">
+
+                <span>
+                    Open Tabs
+                </span>
+
+                <span
+                    id="openTabs"
+                    class="value"
+                >
+                    -
+                </span>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =================================================
+             RESOURCE IMPACT RESULT
+             ================================================= -->
+
+        <div
+            id="resourceResult"
+            class="resource-result"
+        >
+
+
+            <div
+                id="resourceResultTitle"
+                class="resource-result-title"
+            >
+                Resource Impact
+            </div>
+
+
+            <div class="resource-result-row">
+
+                <span>
+                    RAM recovered
+                </span>
+
+                <span
+                    id="ramRecovered"
+                    class="value"
+                >
+                    -
+                </span>
+
+            </div>
+
+
+            <div class="resource-result-row">
+
+                <span>
+                    RAM usage improvement
+                </span>
+
+                <span
+                    id="ramImprovement"
+                    class="value"
+                >
+                    -
+                </span>
+
+            </div>
+
+
+            <div class="resource-result-row">
+
+                <span>
+                    CPU usage improvement
+                </span>
+
+                <span
+                    id="cpuImprovement"
+                    class="value"
+                >
+                    -
+                </span>
+
+            </div>
+
+
+            <div class="resource-result-row">
+
+                <span>
+                    RAM used before → after
+                </span>
+
+                <span
+                    id="ramBeforeAfter"
+                    class="value"
+                >
+                    -
+                </span>
+
+            </div>
+
+
+            <div class="resource-result-row">
+
+                <span>
+                    CPU usage before → after
+                </span>
+
+                <span
+                    id="cpuBeforeAfter"
+                    class="value"
+                >
+                    -
+                </span>
+
+            </div>
+
+
+            <div class="resource-result-row">
+
+                <span>
+                    RAM used after action
+                </span>
+
+                <span
+                    id="ramAfter"
+                    class="value"
+                >
+                    -
+                </span>
+
+            </div>
+
+
+            <div class="resource-note">
+
+                Estimated impact of the selected action,
+                measured at system level after Chrome
+                processes the change.
+
+                It is not an exact per-tab RAM measurement.
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =================================================
+             ACTION BUTTONS
+             ================================================= -->
+
+        <div class="buttons">
+
+
+            <button
+                id="keepButton"
+            >
+                KEEP
+            </button>
+
+
+            <button
+                id="suspendButton"
+            >
+                SUSPEND
+            </button>
+
+
+            <button
+                id="closeButton"
+            >
+                CLOSE
+            </button>
+
+
+        </div>
+
+
+        <!-- =================================================
+             CLOSE WARNING
+             ================================================= -->
+
+        <div class="close-warning">
+
+            CLOSE permanently removes this tab
+            from the current browser session.
+
+            Choose CLOSE only if you are sure
+            you no longer need this tab.
+
+        </div>
+
+
+        <!-- =================================================
+             CLEAR / CLOSE WARNING
+             ================================================= -->
+
+        <button
+            id="clearWarningButton"
+            class="clear-warning-button"
+        >
+            CLEAR / CLOSE WARNING
+        </button>
+
+
+        <!-- =================================================
+             FOOTER
+             ================================================= -->
+
+        <div class="footer">
+
+            Your decision becomes feedback
+            for the ABMI reinforcement
+            learning agent.
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+<script src="warning.js"></script>
+
+
+</body>
+
+</html>
